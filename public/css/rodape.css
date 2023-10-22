@@ -1,0 +1,10 @@
+@import 'estilos.css';
+
+footer{
+    padding-top: 20px;
+    background-color: #848282;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    position: absolute;
+    width: 100%;
+}
