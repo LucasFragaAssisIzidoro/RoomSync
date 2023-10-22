@@ -42,16 +42,14 @@ class Calendario extends Database{
         return $this->db->resultados(\PDO::FETCH_OBJ);
     }
     
-    public function atualizarEvento($id, $title,$description, $start, $end, $turma, $prof, $lab){
-        $this->db->query("UPDATE eventos SET titulo_evento=?, descricao_evento=?, comeco_evento=?, fim_evento=?,turma_evento=?,usuariovento=?, lab_evento=?  WHERE id_evento=?");
+    public function atualizarEvento($id, $title,$description, $start, $end, $sala){
+        $this->db->query("UPDATE eventos SET titulo_evento=?, descricao_evento=?, comeco_evento=?, fim_evento=?, sala_evento=?  WHERE id_evento=?");
         $this->db->bind(1,$title, \PDO::PARAM_STR);
         $this->db->bind(2,$description, \PDO::PARAM_STR);
         $this->db->bind(3,$start, \PDO::PARAM_STR);
         $this->db->bind(4,$end, \PDO::PARAM_STR);
-        $this->db->bind(5,$turma, \PDO::PARAM_STR);
-        $this->db->bind(6,$prof, \PDO::PARAM_STR);
-        $this->db->bind(7,$lab, \PDO::PARAM_STR);
-        $this->db->bind(8,$id, \PDO::PARAM_INT);
+        $this->db->bind(5,$sala, \PDO::PARAM_STR);
+        $this->db->bind(6,$id, \PDO::PARAM_INT);
         $this->db->executa();
 
     }

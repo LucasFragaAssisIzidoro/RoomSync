@@ -9,6 +9,7 @@ $fim = new \DateTime($dados['eventos'][0]->fim_evento);
 </header>
 
 <body>
+    <?php var_dump($dados['eventos'])?>
     <div class="card">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -43,59 +44,31 @@ $fim = new \DateTime($dados['eventos'][0]->fim_evento);
             </div>
             <input type="hidden" class="form-control" name="id" id="id" value="<?= $dados['eventos'][0]->id_evento ?>">
 
+            
             <div class="form-group">
-                <label for="nome_turma">Turma: <sup class="text-danger">*</sup></label>
-                <select name="nome_turma" placeholder="Selecione uma turma" id="nome_turma"
-                    class="form-control <?php if (isset($dados['nome_turma'])) { echo $dados['nome_turma_erro'] ? 'is-invalid' : ''; }; ?>">
-                    <option value="">Selecione uma turma</option>
-                    <?php foreach ($dados["turmas"] as $turma) : ?>
-                    <option value="<?php echo $turma->nome_turma ?>"
-                        <?php if ($turma->nome_turma === $dados['eventos'][0]->turma_evento) { echo 'selected'; } ?>>
-                        <?= $turma->nome_turma ?>
-                    </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="nome_usuario">Nome Usuario <sup class="text-danger">*</sup></label>
-                <select name="nome_usuario" id="nome_usuario" class="form-control <?php if (isset($dados['nome_usuario'])) {
-        echo $dados['nome_usuario_erro'] ? 'is-invalid' : '';
+                <label for="sala">Sala: <sup class="text-danger">*</sup></label>
+                <select name="sala" id="sala" class="form-control <?php if (isset($dados['sala_erro'])) {
+        echo $dados['sala_erro'] ? 'is-invalid' : '';
     }; ?>">
-                    <option value="">Selecione um usuario</option>
-                    <?php foreach ($dados["usuarioes"] as $prof) : ?>
-                    <option value="<?php echo $prof->nome_usuario ?>"
-                        <?php if ($prof->nome_usuario === $dados['eventos'][0]->usuario) echo'selected'; ?>>
-                        <?= $prof->nome_usuario ?>
+                    <option value="">Selecione uma sala</option>
+                    <option value="sala 1"
+                        <?php if ($dados['eventos'][0]->sala_evento === "sala 1") echo 'selected'; ?>>Sala 1
+                        
                     </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="laboratorio">Laboratório: <sup class="text-danger">*</sup></label>
-                <select name="laboratorio" id="laboratorio" class="form-control <?php if (isset($dados['laboratorio_erro'])) {
-        echo $dados['laboratorio_erro'] ? 'is-invalid' : '';
-    }; ?>">
-                    <option value="">Selecione um laboratório</option>
-                    <option value="Laboratorio 1"
-                        <?php if ($dados['eventos'][0]->lab_evento === "Laboratorio 1") echo 'selected'; ?>>Laboratório
-                        1
-                    </option>
-                    <option value="Laboratorio 2"
-                        <?php if ($dados['eventos'][0]->lab_evento === "Laboratorio 2") echo 'selected'; ?>>Laboratório
+                    <option value="sala 2"
+                        <?php if ($dados['eventos'][0]->sala_evento === "sala 2") echo 'selected'; ?>>Sala
                         2
                     </option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="description">Materiais:</label>
+                <label for="description">Obs:</label>
                 <input type="text" class="form-control" name="description" id="description"
                     value="<?= $dados['eventos'][0]->descricao_evento; ?>">
             </div>
             <button type="submit" class="btn btn-primary">Atualizar Aula</button>
-            <a href="http://localhost/AgroInv/calendarios/deletar/<?= $dados['eventos'][0]->id_evento ?>">
+            <a href="http://localhost/RoomSync/calendarios/deletar/<?= $dados['eventos'][0]->id_evento ?>">
                 <input  class="btn btn-primary btn-danger" value="Deletar Aula">
             </a>
 

@@ -85,7 +85,14 @@ class Calendarios extends Controller
         
         }
     public function calendarioAdm(){
-        $this->view('calendarios/calendarioAdm');
+
+        $id =0;
+        $dados =[
+            'usuarios'=>$this->usuarioModel->lerUsuarioPorId($id),
+            'eventos'=>$this->calendarioModel->lerEventos(),
+        ];
+
+        $this->view('calendarios/calendarioAdm', $dados);
     }
     public function editar(){
         if($_SESSION['usuario_tipo']=='admin'){
@@ -101,7 +108,7 @@ class Calendarios extends Controller
                     // Encontrou um evento com o ID especificado
                     $dados = [
                         'eventos' => $this->calendarioModel->trazerEventosPeloId($id),
-                        'usuarioes' => $this->usuarioModel->lerusuarioes(),
+                        'usuarios' => $this->usuarioModel->lerusuarioes(),
                     ];
                     $this->view('calendarios/editar', $dados);
                 } else {
@@ -124,10 +131,10 @@ class Calendarios extends Controller
     {
         if ($this->checarAutorizacao($_SESSION['usuario_id'])) {
             $this->calendarioModel->deletarEvento($id);
-            Sessao::mensagem('aula', 'Aula deletada com sucesso!');
+            Sessao::mensagem('reuniao', 'Reuniao deletada com sucesso!');
             Url::redirecionar('calendarios/calendarioAdm');
         } else {
-            Sessao::mensagem('aula', 'Voce nao tem permissao para deletar esse aula!', 'alert alert-danger');
+            Sessao::mensagem('reunia', 'Voce nao tem permissao para deletar esse reuniao!', 'alert alert-danger');
             Url::redirecionar('calendarios/calendarioAdm');
         }
         $dados = [
@@ -163,11 +170,13 @@ class Calendarios extends Controller
                 $description = filter_input(INPUT_POST, 'description', FILTER_DEFAULT);
                 $start = new \DateTime($date . ' ' . $inicio, new \DateTimeZone('America/Sao_Paulo'));
                 $end = new \DateTime($date . ' ' . $fim, new \DateTimeZone('America/Sao_Paulo'));
+                $sala = filter_input(INPUT_POST, 'sala', FILTER_DEFAULT);
+                
         
                 
-                $this->calendarioModel->atualizarEvento($id, $title, $description, $start->format('Y-m-d H:i:s'), $end->format('Y-m-d H:i:s'));
+                $this->calendarioModel->atualizarEvento($id, $title, $description, $start->format('Y-m-d H:i:s'), $end->format('Y-m-d H:i:s'), $sala);
                 Url::redirecionar('calendarios/calendarioAdm');
-                Sessao::mensagem('aula', 'Aula atualizada com sucesso!');
+                Sessao::mensagem('reuniao', 'Reuniao atualizada com sucesso!');
         
             } else {
                 echo "Houve um erro!";
