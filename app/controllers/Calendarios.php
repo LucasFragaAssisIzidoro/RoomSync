@@ -86,9 +86,8 @@ class Calendarios extends Controller
         }
     public function calendarioAdm(){
 
-        $id =0;
+        
         $dados =[
-            'usuarios'=>$this->usuarioModel->lerUsuarioPorId($id),
             'eventos'=>$this->calendarioModel->lerEventos(),
         ];
 

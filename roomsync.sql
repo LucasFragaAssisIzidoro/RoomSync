@@ -1,6 +1,6 @@
 create database roomsync;
 
-create database roomsync;
+use roomsync;
 
 create table usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
