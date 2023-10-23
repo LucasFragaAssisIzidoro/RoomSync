@@ -9,8 +9,9 @@
     <link href='https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.1/css/all.css' rel='stylesheet'>
     <link rel="stylesheet" href="/RoomSync/public/js/fullcalendar/main.min.css">
 </head>
-<?php var_dump($dados)?>
+
 <body>
+    <?php var_dump($dados)?>
     <?php echo Sessao::mensagem('reuniao'); ?>
     <div class="container-fluid">
         <div class="row">
@@ -22,22 +23,23 @@
 
             
                
-                <?php foreach ($dados['eventos'] as $eventos):?>
-                    <div class="card">
-                        <div class="card-body">
-                       <?php $id_user =$dados['eventos'][0]->id_usuario_ocupado ?>
-                            <h5 class="card-title">Evento a ser aprovado</h5>
-                            <p>Id solicitante: <?=$dados['eventos'][0]->id_usuario_ocupado?></p>
-                            <p>Data Inicio: <?= $dados['eventos'][0]->comeco_evento?></p>
-                            <p>Data Fim: <?= $dados['eventos'][0]->fim_evento?></p>
-                            <p>Sala: <?= $dados['eventos'][0]->sala_evento?></p>
-                            <p>Descricao : <?= $dados['eventos'][0]->descricao_evento?></p>
-                            <button type="button" class="btn btn-success d-inline"><i class="fas fa-check"></i> Aprovar</button>
-                            <button type="button" class="btn btn-success d-inline"><i class="fas fa-times"></i> Rejeitar</button>
-                        </div>
-                    </div>
-                    <hr>
-                <?php endforeach?>
+            <?php foreach ($dados['eventos'] as $evento): ?>
+    <div class="card">
+        <div class="card-body">
+            <?php $id_user = $evento->id_usuario_ocupado; ?>
+            <h5 class="card-title">Evento a ser aprovado</h5>
+            <p>Id solicitante: <?= $evento->id_usuario_ocupado; ?></p>
+            <p>Data Inicio: <?= $evento->comeco_evento; ?></p>
+            <p>Data Fim: <?= $evento->fim_evento; ?></p>
+            <p>Sala: <?= $evento->sala_evento; ?></p>
+            <p>Descricao: <?= $evento->descricao_evento; ?></p>
+            <button type="button" class="btn btn-success d-inline"><i class="fas fa-check"></i> Aprovar</button>
+            <button type="button" class="btn btn-danger d-inline"><i class="fas fa-times"></i> Rejeitar</button>
+        </div>
+    </div>
+    <hr>
+<?php endforeach ?>
+
             
             </div>
     </div>

@@ -18,10 +18,7 @@
                         <div class="navbar-nav">
                             <ul>
                                 <!-- Aplicando a classe mx-auto para centralizar -->
-                                <li class="nav-item">
-                                    <a href="<?php echo URL ?>/posts" class="nav-link" data-toggle="tooltip"
-                                        title="Blog">Blog</a>
-                                </li>
+                                
 
                                 <!-- Aplicando a classe mx-auto para centralizar -->
                                 <li class="nav-item">
@@ -82,9 +79,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a href="<?php echo URL ?>/posts" class="nav-link" data-tooltip="tooltip" tittle="Blog">Blog </a>
-                        </li>
+                        
                     </ul>
                     <span class="navbar-text">
                         <?php if (isset($_SESSION['tipo_usuario']) == "admin"): ?>
