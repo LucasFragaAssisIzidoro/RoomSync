@@ -83,16 +83,90 @@ class Calendarios extends Controller
     
         $this->view('calendarios/cadastrar', $dados);
         
+    }
+
+    public function solicitar(){
+
+        // Obtém o caminho da URL atual
+        $URL = $_SERVER['REQUEST_URI'];
+        
+        // Use expressões regulares para extrair a data
+        $regra = '/\/(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2})/';
+        preg_match($regra, $URL, $matches);
+        
+       
+        $data = $matches[1];
+        
+        
+        $date = filter_input(INPUT_POST, 'date', FILTER_DEFAULT);
+        $inicio = filter_input(INPUT_POST, 'start', FILTER_DEFAULT);
+        $fim = filter_input(INPUT_POST, 'end', FILTER_DEFAULT);
+        $title = filter_input(INPUT_POST, 'title', FILTER_DEFAULT);
+        $description = filter_input(INPUT_POST, 'description', FILTER_DEFAULT);
+        $sala = filter_input(INPUT_POST, 'sala', FILTER_DEFAULT);
+        $start = new \DateTime($date . '' . $inicio, new \DateTimeZone('America/Sao_Paulo'));
+        $end = new \DateTime($date . '' . $fim, new \DateTimeZone('America/Sao_Paulo'));
+        $id_user = $_SESSION['usuario_id'];
+        $dados = [];
+        
+        
+        if (empty($title) || empty($description) || empty($inicio) || empty($date)) {
+            if (empty($date)) {
+                $dados['data_erro'] = "Preencha o campo data";
+            }
+            if (empty($inicio)) {
+                $dados['start_erro'] = "Preencha o campo inicio da aula";
+            }
+            if (empty($fim)) {
+                $dados['end_erro'] = "Preencha o campo fim da aula";
+            }
+            if (empty($title)) {
+                $dados['title_erro'] = "Preencha o campo titulo";
+            }
+            if (empty($description)) {
+                $dados['description_erro'] = "Preencha o campo descricao";
+            }
+            if (empty($prof)) {
+                $dados['usuario_erro'] = "Preencha o campo usuario";
+            }
+            if (empty($turma)) {
+                $dados['turma_erro'] = "Preencha o campo turma";
+            }
+            if (empty($lab)) {
+                $dados['laboratorio_erro'] = "Preencha o campo laboratorio";
+            } 
+            Sessao::mensagem('cadastro', 'Preencha todos os campos!', 'alert alert-danger');
+        } else {
+        
+            $this->calendarioModel->solicitarEvento(0, $id_user, $title, $description, $start->format('Y-m-d H:i:s'), $end->format('Y-m-d H:i:s'), $sala);
+            Url::redirecionar('calendarios/calendarioAdm');
+            Sessao::mensagem('reuniao', 'Reuniao cadastrada com sucesso!');
+        
+        
         }
+        $dados = [
+            'usuarios' => $this->usuarioModel->lerusuarioes(),
+            'data' => $data,
+            'titulo'=>$title,
+            'fim'=>$fim,
+        
+        ];
+    
+        $this->view('calendarios/solicitar', $dados);
+        
+    }
+    
     public function calendarioAdm(){
 
         
         $dados =[
-            'eventos'=>$this->calendarioModel->lerEventos(),
+            'eventos'=>$this->calendarioModel->lerEventosPendentes(),
         ];
 
         $this->view('calendarios/calendarioAdm', $dados);
     }
+
+
     public function editar(){
         if($_SESSION['usuario_tipo']=='admin'){
 
@@ -144,6 +218,56 @@ class Calendarios extends Controller
 
         $this->view('calendarios/deletar', $dados);
     }
+    public function deletarPendente($id)
+    {
+        if ($this->checarAutorizacao($_SESSION['usuario_id'])) {
+            $this->calendarioModel->deletarEventoPendente($id);
+            Sessao::mensagem('reuniao', 'Reuniao nao foi permitida!');
+            Url::redirecionar('calendarios/calendarioAdm');
+        } else {
+            Sessao::mensagem('reunia', 'Voce nao tem permissao para deletar esse reuniao!', 'alert alert-danger');
+            Url::redirecionar('calendarios/calendarioAdm');
+        }
+        $dados = [
+            'eventos' => $this->calendarioModel->lerEventosPendentes(),
+            
+        ];
+
+        $this->view('calendarios/deletar', $dados);
+    }
+
+    public function aprovar($id){
+    
+    var_dump($_POST); // Adicione esta linha para depurar
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_POST['evento'])) {
+            $evento = $_POST['evento'];
+            $id_solicitador = $evento['id_solicitador'];
+            $title = $evento['titulo_evento'];
+            $description = $evento['descricao_evento'];
+            $start = $evento['comeco_evento'];
+            $end = $evento['fim_evento'];
+            $sala = $evento['sala_evento'];
+
+            if ($this->checarAutorizacao($_SESSION['usuario_id'])) {
+                $this->calendarioModel->aprovar($id, $id_solicitador, $title, $description, $start, $end, $sala);
+                $this->calendarioModel->deletarEventoPendente($id);
+                Sessao::mensagem('reuniao', 'Reunião permitida!');
+            } else {
+                Sessao::mensagem('reuniao', 'Você não tem permissão para permitir essa reunião!', 'alert alert-danger');
+            }
+        }
+    }
+        Url::redirecionar('calendarios/calendarioAdm');
+    }
+
+    
+    
+
+   
+
+
     private function checarAutorizacao($id)
     {
         $usuario = $this->usuarioModel->lerUsuarioPorId($id);

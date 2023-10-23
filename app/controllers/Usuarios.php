@@ -230,7 +230,7 @@ class Usuarios extends Controller{
             
             }
         
-            $this->view('usuarios/gerenciarusers', $dados);
+            $this->view('usuarios/cadastrar', $dados);
         }else{
             Url::redirecionar('home');
             Sessao::mensagem('permissao', 'Voce não tem permissao para acessar essa àrea','alert alert-danger');
@@ -357,8 +357,7 @@ class Usuarios extends Controller{
                     ['tipo_usuario']),
                     'email' => trim($formulario['email']),
                     'senha' => trim($formulario['senha']),
-                    'confirmar_senha' => trim($formulario['confirmar_senha']),
-                    'usuario' => $this->usuarioModel->lerUsuarios()
+                    'confirmar_senha' => trim($formulario['confirmar_senha'])
                 ];
                 if (in_array("", $formulario)) {
                     if (empty($formulario['tipo_usuario'])) {
@@ -394,7 +393,7 @@ class Usuarios extends Controller{
                        
                         if($this->usuarioModel->armazenar($dados)){
                             Sessao::mensagem('usuario', "usuario cadastrado com sucesso");  
-                            Url::redirecionar('usuarios/gerenciarusers');
+                            Url::redirecionar('usuarios/login');
                                                   
                         }else{
                             die("Erro ao armazenar usuario no banco de dados");
@@ -413,10 +412,9 @@ class Usuarios extends Controller{
                     'email_erro' => '',
                     'senha_erro' => '',
                     'confirmar_senha_erro' => '',
-                    'usuarioes'=>$this->usuarioModel->lerusuarioes()
                 ];
             }
-            $this->view('usuarios/cadastrarprof', $dados);
+            $this->view('usuarios/cadastraruser', $dados);
         }else{
             Url::redirecionar('home');
             Sessao::mensagem('permissao', 'Voce não tem permissao para acessar essa àrea','alert alert-danger');

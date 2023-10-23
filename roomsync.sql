@@ -13,10 +13,20 @@ create table usuario (
 
 create table eventos (
 	id_evento int auto_increment primary key, 
-	id_usuario_ocupado int,
+	id_solicitador int,
 	titulo_evento varchar(255),
 	descricao_evento varchar(255),
 	comeco_evento timestamp null,
-	fim_evento timestamp null   
+	fim_evento timestamp null,
+	sala_evento varchar(255)   
+);
+create table eventosPendentes (
+	id_evento int auto_increment primary key, 
+	id_solicitador int,
+	titulo_evento varchar(255),
+	descricao_evento varchar(255),
+	comeco_evento timestamp null,
+	fim_evento timestamp null,
+	sala_evento varchar(255)  
 );
 

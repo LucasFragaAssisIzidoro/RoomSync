@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <h1>Cadastrar usuario</h1>
-                    <form name="cadastrar" method="POST" action="<?php echo URL ?>/usuarios/cadastrarprof">
+                    <form name="cadastrar" method="POST" action="<?php echo URL ?>/usuarios/cadastraruser">
                         <div class="form-group">
                             <label for="nome">Nome: <sup class="text-danger">*</sup></label>
                             <input type="text" name="nome" id="nome" value="<?php echo $dados['nome']?>"

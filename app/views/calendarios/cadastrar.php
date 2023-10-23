@@ -16,7 +16,7 @@
             <li class="breadcrumb-item active" aria-current="page"><a>Cadastrar</a></li>
         </ol>
     </nav>
-        <form name="formAdd" id="formAdd" method="post" action="<?= URL ?>/calendarios/cadastrar/<?=$data->format('Y-m-d\TH:i:sP')?>" method="post">
+        <form name="formAdd" id="formAdd" method="post" action="<?= URL ?>/calendarios/solicitar/<?=$data->format('Y-m-d\TH:i:sP')?>" method="post">
 
             <h2 class="form-title">Formulário de Cadastro de Aula</h2>
 
@@ -69,7 +69,7 @@
                 <label for="description">Obs:</label>
                 <input type="text" class="form-control" name="description" id="description" required>
             </div>
-            <button type="submit" class="btn btn-primary">Marcar Aula</button>
+            <button type="submit" class="btn btn-primary">Solicitar Aula</button>
         </form>
     </section>
 
